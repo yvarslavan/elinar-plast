@@ -1,0 +1,329 @@
+/**
+ * Injection Molding Video Player
+ * Стильный видеоплеер для демонстрации процесса литья
+ */
+
+.injection-video-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.injection-video-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 102, 204, 0.2), transparent);
+}
+
+.injection-video-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr; /* Video is now wider than text */
+    gap: 3rem;
+    align-items: stretch; /* Ensure equal height */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ============================================
+   VIDEO PLAYER
+   ============================================ */
+
+.injection-video-player {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    background: #000;
+    height: 100%; /* Fill the grid cell height */
+    min-height: 400px; /* Minimum height constraint */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.injection-video-player:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.injection-video-player video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Play Button Overlay */
+.video-play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25); /* Slightly lighter overlay */
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.injection-video-player.is-playing .video-play-overlay {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.video-play-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 3px solid rgba(0, 102, 204, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.video-play-overlay:hover .video-play-button {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(0, 102, 204, 0.5);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.video-play-button svg {
+    width: 32px;
+    height: 32px;
+    fill: #0066cc;
+    margin-left: 4px;
+    /* Визуальная центровка треугольника */
+}
+
+/* Video Controls */
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.injection-video-player:hover .video-controls,
+.injection-video-player.is-playing .video-controls {
+    opacity: 1;
+}
+
+.video-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+.video-progress-fill {
+    height: 100%;
+    background: #0066cc;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.video-controls-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.video-control-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+
+.video-control-btn:hover {
+    opacity: 0.7;
+}
+
+.video-control-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.video-time {
+    color: white;
+    font-size: 0.875rem;
+    margin-left: auto;
+}
+
+/* ============================================
+   VIDEO INFO
+   ============================================ */
+
+.injection-video-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.video-info-header h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.2;
+}
+
+.video-info-header h3 span {
+    background: linear-gradient(135deg, #0066cc, #0052a3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.video-info-description {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: #475569;
+}
+
+.video-info-description strong {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Technical Badges */
+.video-tech-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.tech-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+}
+
+.tech-badge:hover {
+    border-color: #0066cc;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+    transform: translateY(-2px);
+}
+
+.tech-badge-icon {
+    font-size: 1.125rem;
+}
+
+.tech-badge-label {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.tech-badge-value {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 992px) {
+    .injection-video-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .video-info-header h3 {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .injection-video-section {
+        padding: 3rem 0;
+    }
+
+    .injection-video-container {
+        padding: 0 1.5rem;
+    }
+
+    .injection-video-player {
+        border-radius: 16px;
+    }
+
+    .video-play-button {
+        width: 64px;
+        height: 64px;
+    }
+
+    .video-play-button svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .video-info-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .video-info-description {
+        font-size: 1rem;
+    }
+
+    .tech-badge {
+        font-size: 0.8125rem;
+        padding: 0.5rem 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .injection-video-section {
+        padding: 2rem 0;
+    }
+
+    .injection-video-container {
+        padding: 0 1rem;
+        gap: 1.5rem;
+    }
+
+    .video-tech-badges {
+        gap: 0.5rem;
+    }
+}

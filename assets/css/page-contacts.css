@@ -1,0 +1,435 @@
+/* ============================================
+   PAGE CONTACTS STYLES v1.1.3
+   ============================================ */
+
+/* ============================================
+   HERO SECTION - Contacts
+   ============================================ */
+
+/* Осветляем overlay для hero-секции на странице Contacts */
+.page-hero-contacts .hero-overlay {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)) !important;
+}
+
+/* Смещаем видимую область фонового изображения */
+.page-hero-contacts .hero-bg-img {
+    object-position: center 35% !important;
+}
+
+/* РАДИКАЛЬНОЕ уменьшение для попадания в экран */
+.page-hero-contacts.page-hero-compact {
+    min-height: 35vh !important;
+    padding-top: calc(1rem + var(--header-height)) !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.page-hero-contacts .container {
+    padding-top: 0.5rem !important;
+}
+
+/* Уменьшаем размер заголовка на странице контактов для лучшего баланса */
+.page-hero-contacts h1 {
+    font-size: clamp(1.8rem, 4.5vw, 3.2rem) !important;
+    margin-bottom: 1.5rem !important;
+    text-align: center !important;
+}
+
+/* ============================================
+   PAGE CONTENT - Убираем белую полосу
+   ============================================ */
+
+/* Универсальные селекторы для страницы контактов */
+body.page-template-contacts-page .page-content.section,
+body.page-template-page-contacts .page-content.section,
+.page-hero-contacts~.page-content.section,
+.page-hero-contacts~main.page-content.section,
+.page-hero-contacts+main.section.page-content,
+main.section.page-content:has(.contacts-section),
+main.section.page-content:has(.contacts-grid) {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    background: linear-gradient(180deg,
+            rgba(196, 221, 254, 1) 0%,
+            rgba(147, 197, 253, 1) 50%,
+            rgba(196, 221, 254, 1) 100%) !important;
+}
+
+/* Фон body */
+body.page-template-contacts-page,
+body.page-template-page-contacts {
+    background: linear-gradient(180deg,
+            rgba(196, 221, 254, 1) 0%,
+            rgba(147, 197, 253, 1) 50%,
+            rgba(196, 221, 254, 1) 100%) !important;
+}
+
+/* Дополнительный селектор */
+.page-hero-contacts~.page-content,
+.page-hero-contacts~main {
+    background: linear-gradient(180deg,
+            rgba(196, 221, 254, 1) 0%,
+            rgba(147, 197, 253, 1) 50%,
+            rgba(196, 221, 254, 1) 100%) !important;
+}
+
+/* ============================================
+   CONTACTS SECTION - Поднимаем карточки
+   ============================================ */
+
+body.page-template-contacts-page .contacts-section,
+body.page-template-page-contacts .contacts-section,
+.page-hero-contacts~.page-content .contacts-section,
+.page-hero-contacts~main .contacts-section,
+.contacts-section {
+    padding-top: 0 !important;
+    margin-top: -40px !important;
+    position: relative;
+    z-index: 10;
+}
+
+/* ============================================
+   CONTACTS GRID - Одинаковая высота карточек
+   ============================================ */
+
+body.page-template-contacts-page .contacts-grid,
+body.page-template-page-contacts .contacts-grid,
+.page-hero-contacts~.page-content .contacts-grid,
+.page-hero-contacts~main .contacts-grid,
+.contacts-section .contacts-grid,
+.contacts-grid {
+    margin-top: 0 !important;
+    align-items: stretch !important;
+}
+
+/* ============================================
+   CONTACTS INFO - Левая карточка
+   ============================================ */
+
+body.page-template-contacts-page .contacts-info,
+body.page-template-page-contacts .contacts-info,
+.contacts-info {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 16px 24px !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid #F1F5F9 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    height: auto !important;
+}
+
+/* ============================================
+   CONTACTS FORM WRAPPER
+   ============================================ */
+
+body.page-template-contacts-page .contacts-form-wrapper,
+body.page-template-page-contacts .contacts-form-wrapper,
+.page-hero-contacts~.page-content .contacts-form-wrapper,
+.page-hero-contacts~main .contacts-form-wrapper,
+.contacts-section .contacts-form-wrapper,
+.contacts-grid .contacts-form-wrapper,
+.contacts-form-wrapper {
+    height: 100% !important;
+}
+
+/* ============================================
+   CONTACTS FORM CARD - Правая карточка
+   ============================================ */
+
+body.page-template-contacts-page .contacts-form-card,
+body.page-template-page-contacts .contacts-form-card,
+.page-hero-contacts~.page-content .contacts-form-card,
+.page-hero-contacts~main .contacts-form-card,
+.contacts-section .contacts-form-card,
+.contacts-grid .contacts-form-card,
+.contacts-form-wrapper .contacts-form-card,
+.contacts-form-card {
+    padding: 16px 24px !important;
+    box-sizing: border-box !important;
+    height: 100% !important;
+}
+
+/* Стили формы */
+body.page-template-contacts-page .contacts-form-title,
+body.page-template-page-contacts .contacts-form-title,
+.contacts-form-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.75rem !important;
+}
+
+body.page-template-contacts-page .contacts-form.simple-form .form-group,
+body.page-template-page-contacts .contacts-form.simple-form .form-group,
+.contacts-form.simple-form .form-group {
+    margin-bottom: 0.5rem !important;
+}
+
+body.page-template-contacts-page .contacts-form.simple-form input,
+body.page-template-contacts-page .contacts-form.simple-form input,
+body.page-template-page-contacts .contacts-form.simple-form input,
+.contacts-form.simple-form input {
+    padding: 0.4rem 0.75rem !important;
+    font-size: 0.875rem !important;
+}
+
+body.page-template-contacts-page .contacts-form.simple-form textarea,
+body.page-template-page-contacts .contacts-form.simple-form textarea,
+.contacts-form.simple-form textarea {
+    min-height: 50px !important;
+    resize: vertical;
+    padding: 0.4rem 0.75rem !important;
+    font-size: 0.875rem !important;
+}
+
+body.page-template-contacts-page .contacts-form.simple-form .form-buttons,
+body.page-template-page-contacts .contacts-form.simple-form .form-buttons,
+.contacts-form.simple-form .form-buttons {
+    margin-top: 0.75rem !important;
+}
+
+body.page-template-contacts-page .contacts-form.simple-form .btn-accent,
+body.page-template-page-contacts .contacts-form.simple-form .btn-accent,
+.contacts-form.simple-form .btn-accent {
+    padding: 0.6rem 1.25rem !important;
+    font-size: 0.85rem !important;
+    background-color: #ff672d !important;
+    border-color: #ff672d !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    transition: all 0.3s ease !important;
+}
+
+body.page-template-contacts-page .contacts-form.simple-form .btn-accent:hover,
+body.page-template-page-contacts .contacts-form.simple-form .btn-accent:hover,
+.contacts-form.simple-form .btn-accent:hover {
+    background-color: #ff8555 !important;
+    border-color: #ff8555 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(255, 103, 45, 0.3) !important;
+}
+
+body.page-template-contacts-page .contacts-form.simple-form .form-consent,
+body.page-template-page-contacts .contacts-form.simple-form .form-consent,
+.contacts-form.simple-form .form-consent {
+    margin-top: 0.875rem !important;
+}
+
+/* --- Contacts Title --- */
+.contacts-title {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    margin: 0 0 1rem 0 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+}
+
+/* --- Contacts List --- */
+.contacts-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+}
+
+.contact-item {
+    margin: 0 !important;
+}
+
+.contact-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    /* Уменьшен отступ SVG от текста */
+    text-decoration: none !important;
+    color: #1e293b !important;
+    transition: all 0.2s ease !important;
+    padding: 0.1rem 0 !important;
+    /* Еще плотнее вертикально */
+}
+
+.contact-link .icon-wrapper {
+    width: 32px !important;
+    height: 32px !important;
+    background: #F8FAFC !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+.contact-link .icon-wrapper svg,
+.contact-link .icon-wrapper svg path {
+    width: 16px !important;
+    height: 16px !important;
+    fill: currentColor !important;
+}
+
+.contact-link:hover .icon-wrapper {
+    background: #E2E8F0 !important;
+    transform: scale(1.05) !important;
+}
+
+.contact-text .value {
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    color: #1e293b !important;
+}
+
+/* --- Specific Design & Colors --- */
+.contact-main-phone .contact-link .icon-wrapper {
+    background: rgba(15, 76, 92, 0.1) !important;
+    color: #0f4c5c !important;
+}
+
+.contact-main-phone .value {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #0f4c5c !important;
+}
+
+.contact-address .contact-link .icon-wrapper {
+    background: rgba(243, 156, 18, 0.1) !important;
+    color: #F39C12 !important;
+}
+
+.contact-email .contact-link .icon-wrapper {
+    background: rgba(0, 102, 204, 0.1) !important;
+    color: #0066cc !important;
+}
+
+.contact-email .value {
+    text-decoration: underline !important;
+    text-decoration-color: rgba(0, 102, 204, 0.3) !important;
+}
+
+.contact-hours .contact-link .icon-wrapper {
+    background: rgba(100, 116, 139, 0.1) !important;
+    color: #64748b !important;
+}
+
+.contact-hours .value {
+    color: #64748b !important;
+}
+
+/* --- Messengers Block --- */
+.messengers-block {
+    margin-top: 1rem !important;
+    padding: 0.75rem 0 0 0 !important;
+    border-top: 1px solid #F1F5F9 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.35rem !important;
+}
+
+.messengers-hint {
+    font-size: 0.9rem !important;
+    color: #64748b !important;
+    margin: 0 0 4px 0 !important;
+    font-weight: 500 !important;
+    text-align: left !important;
+}
+
+.btn-telegram {
+    background-color: #24A1DE !important;
+    color: #ffffff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 8px 20px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    text-decoration: none !important;
+}
+
+.btn-telegram:hover {
+    background-color: #2091c9 !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(36, 161, 222, 0.4) !important;
+}
+
+.btn-telegram svg,
+.btn-telegram svg path {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* ============================================
+   MOBILE STYLES
+   ============================================ */
+
+@media (max-width: 768px) {
+    .page-hero-contacts.page-hero-compact {
+        min-height: 50vh !important;
+        padding-top: calc(2.5rem + var(--header-height)) !important;
+        padding-bottom: 2rem !important;
+    }
+
+    body.page-template-contacts-page .page-content.section,
+    body.page-template-page-contacts .page-content.section {
+        padding-top: 0 !important;
+    }
+
+    body.page-template-contacts-page .contacts-section,
+    body.page-template-page-contacts .contacts-section,
+    .contacts-section {
+        padding-top: 0 !important;
+        margin-top: -20px !important;
+    }
+
+    body.page-template-contacts-page .contacts-grid,
+    body.page-template-page-contacts .contacts-grid,
+    .contacts-grid {
+        margin-top: 0 !important;
+        align-items: stretch !important;
+    }
+
+    body.page-template-contacts-page .contacts-form-card,
+    body.page-template-page-contacts .contacts-form-card,
+    .contacts-form-card {
+        padding: 1.5rem !important;
+    }
+
+    body.page-template-contacts-page .contacts-form-title,
+    body.page-template-page-contacts .contacts-form-title,
+    .contacts-form-title {
+        font-size: 1.125rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    body.page-template-contacts-page .contacts-form.simple-form .form-group,
+    body.page-template-page-contacts .contacts-form.simple-form .form-group,
+    .contacts-form.simple-form .form-group {
+        margin-bottom: 0.75rem !important;
+    }
+
+    body.page-template-contacts-page .contacts-info,
+    body.page-template-page-contacts .contacts-info,
+    .contacts-info {
+        gap: 0 !important;
+        padding: 24px !important;
+        border-radius: 16px !important;
+    }
+
+    body.page-template-contacts-page .messengers-block,
+    body.page-template-page-contacts .messengers-block,
+    .messengers-block {
+        margin-top: 2rem !important;
+        padding-top: 1.5rem !important;
+    }
+
+    .contact-main-phone .value {
+        font-size: 1.35rem !important;
+    }
+}

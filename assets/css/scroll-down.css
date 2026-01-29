@@ -1,0 +1,141 @@
+/* Scroll Down Button Styles */
+.scroll-down-wrapper {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  opacity: 0;
+  animation: scrollFadeIn 1s ease-out 1s forwards;
+  cursor: pointer;
+}
+
+.scroll-down-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.scroll-down-btn:hover {
+  transform: translateY(5px);
+}
+
+/* Mouse Icon */
+.mouse-icon {
+  width: 30px;
+  height: 48px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  position: relative;
+  margin-bottom: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+  transition: all 0.3s ease;
+}
+
+.scroll-down-btn:hover .mouse-icon {
+  border-color: #fff;
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+  /* Glow effect with brand color */
+}
+
+/* Animated Wheel */
+.wheel {
+  width: 4px;
+  height: 8px;
+  background: #FF6B35;
+  /* Orange accent */
+  border-radius: 2px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scrollWheel 2s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+/* Arrows */
+.arrow-scroll span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+  border-right: 2px solid rgba(255, 255, 255, 0.6);
+  transform: rotate(45deg);
+  margin: -4px auto;
+  animation: scrollArrow 2s infinite;
+}
+
+.scroll-down-btn:hover .arrow-scroll span {
+  border-color: #fff;
+}
+
+.arrow-scroll span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.arrow-scroll span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Animations */
+@keyframes scrollWheel {
+  0% {
+    top: 8px;
+    opacity: 1;
+    height: 6px;
+  }
+
+  100% {
+    top: 24px;
+    opacity: 0;
+    height: 4px;
+  }
+}
+
+@keyframes scrollArrow {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translate(-5px, -5px);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+}
+
+@keyframes scrollFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .scroll-down-wrapper {
+    bottom: 20px;
+  }
+
+  .mouse-icon {
+    width: 26px;
+    height: 42px;
+    border-width: 1.5px;
+  }
+
+  .wheel {
+    width: 3px;
+    height: 6px;
+  }
+}

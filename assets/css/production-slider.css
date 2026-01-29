@@ -1,0 +1,572 @@
+/* ============================================
+   PRODUCTION SECTION - MODERN ENGINEERING (v5.0)
+   ============================================ */
+
+/* Fonts are loaded globally via wp_enqueue_style in functions.php */
+
+:root {
+    --eng-blue: #0f172a;
+    /* Deep Blue / Slate 900 */
+    --eng-accent: #3b82f6;
+    /* Technical Blue */
+    --eng-orange: #f97316;
+    /* Safety Orange */
+    --eng-gray: #64748b;
+    /* Slate 500 */
+    --eng-border: #cbd5e1;
+    /* Slate 300 - Metallic feel */
+    --eng-bg: #f8fafc;
+    /* Slate 50 */
+    --eng-grid-line: rgba(148, 163, 184, 0.2);
+}
+
+.section-production-modern {
+    padding: 100px 0;
+    background-color: var(--eng-bg);
+    position: relative;
+    font-family: 'Manrope', sans-serif;
+    color: var(--eng-blue);
+    overflow: hidden;
+}
+
+.production-grid-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 0 60px;
+    /* Horizontal gap only, vertical handled by content flow */
+    grid-template-areas:
+        "title logo"
+        "content visual"
+        "stats stats";
+}
+
+/* ============================================
+   TITLE AREA (ROW 1 LEFT)
+   ============================================ */
+.production-title-area {
+    grid-area: title;
+    margin-bottom: 2rem;
+    /* Space between title and content */
+}
+
+/* ============================================
+   LOGO AREA (ROW 1 RIGHT)
+   ============================================ */
+.production-logo-area {
+    grid-area: logo;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+}
+
+.production-logo-image {
+    max-width: 280px;
+    height: auto;
+    opacity: 0.85;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
+    transition: all 0.3s ease;
+}
+
+.production-logo-image:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* ============================================
+   CONTENT AREA (ROW 2 LEFT)
+   ============================================ */
+.production-content-area {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    /* Aligns content to start of cell */
+}
+
+.production-text-area {
+    /* LEGACY REMOVAL - Kept empty to avoid errors if referenced elsewhere */
+    display: contents;
+}
+
+.engineering-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 0.9;
+    margin-bottom: 0;
+    /* Margin handled by area */
+    color: var(--eng-blue);
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* ============================================
+   VISUAL AREA (ROW 2 RIGHT)
+   ============================================ */
+
+.production-visual-area {
+    grid-area: visual;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Stretch to match content height */
+    min-height: 400px;
+    /* Minimum height safeguard */
+}
+
+.slider-container-modern {
+    position: relative;
+    border: 1px solid var(--eng-border);
+    border-radius: 8px;
+    /* Strict, small radius */
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    /* Fill the grid area */
+}
+
+/* Remove Fixed Aspect Ratio hack */
+.slider-container-modern::before {
+    content: none;
+}
+
+.slider-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slider-slide {
+    min-width: 100%;
+    height: 100%;
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+}
+
+.slide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.slider-slide:hover .slide-image img {
+    transform: scale(1.05);
+}
+
+/* Minimalist Controls */
+
+/* Controls - positioned relative to production-visual-area */
+.slider-controls-modern {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 0;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.slider-btn-modern {
+    background: transparent;
+    border: 1px solid var(--eng-border);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--eng-blue);
+    transition: all 0.2s;
+}
+
+.slider-btn-modern:hover {
+    background: var(--eng-blue);
+    color: #fff;
+    border-color: var(--eng-blue);
+}
+
+.slider-counter-modern {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--eng-blue);
+    min-width: 60px;
+    text-align: center;
+}
+
+/* ============================================
+   STATS AREA (BOTTOM)
+   ============================================ */
+
+.production-stats-area {
+    grid-area: stats;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding-top: 40px;
+    margin-top: 40px;
+    /* Added margin to separate from slider and text */
+    border-top: 1px solid var(--eng-border);
+}
+
+.stat-item-modern {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    position: relative;
+}
+
+.stat-item-modern:first-child {
+    padding-left: 0;
+}
+
+.stat-item-modern:last-child {
+    padding-right: 0;
+}
+
+.stat-divider {
+    width: 1px;
+    background: var(--eng-border);
+    margin: 10px 0;
+    transition: background 0.3s;
+}
+
+/* Hover Effect on Divider */
+.production-stats-area:hover .stat-divider {
+    background: var(--eng-orange);
+}
+
+.stat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.tech-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--eng-orange);
+    border-radius: 50%;
+    display: block;
+}
+
+.stat-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 4rem;
+    /* Huge */
+    font-weight: 900;
+    color: #0052D4;
+    /* Bright Blue */
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+/* Option: Outlined text for visual variety */
+.stat-value.outlined {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--eng-blue);
+}
+
+.stat-value.text-value {
+    font-size: 2.5rem;
+    /* Smaller for text headers */
+    text-transform: uppercase;
+    color: #0052D4;
+}
+
+.stat-desc {
+    font-size: 1rem;
+    color: var(--eng-gray);
+    font-weight: 500;
+    padding-left: 16px;
+    /* Align with text start */
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .production-grid-container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "title"
+            "logo"
+            "content"
+            "visual"
+            "stats";
+        gap: 40px;
+    }
+
+    .production-logo-area {
+        justify-content: center;
+        margin-bottom: 0;
+    }
+
+    .production-logo-image {
+        max-width: 220px;
+    }
+
+    .engineering-body {
+        grid-template-columns: 1fr;
+    }
+
+    .production-stats-area {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .stat-divider {
+        width: 100%;
+        height: 1px;
+        margin: 0;
+        display: none;
+        /* Use gaps instead for cleaner stack */
+    }
+
+    .stat-item-modern {
+        padding: 0;
+        border-bottom: 1px solid var(--eng-border);
+        padding-bottom: 20px;
+    }
+
+    .stat-item-modern:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-production-modern {
+        padding: 60px 0;
+    }
+
+    .production-grid-container {
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+        gap: 30px;
+    }
+
+    .production-title-area {
+        margin-bottom: 10px;
+    }
+
+    /* Hide logo on mobile to save space */
+    .production-logo-area {
+        display: none;
+    }
+
+    .engineering-title {
+        font-size: 2rem;
+        /* Reduced size */
+        line-height: 1.2;
+        /* Increased line-height */
+        margin-bottom: 10px;
+    }
+
+    .production-content-area {
+        width: 100%;
+    }
+
+    .production-visual-area {
+        width: 100%;
+        min-height: 300px;
+    }
+
+    .slider-container-modern {
+        height: clamp(240px, 55vw, 340px);
+    }
+
+    /* Slider controls - ensure visibility on mobile */
+    .slider-controls-modern {
+        padding: 10px 0;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .slider-btn-modern {
+        width: 36px;
+        height: 36px;
+    }
+
+    .slider-counter-modern {
+        font-size: 1rem;
+        min-width: 50px;
+    }
+
+    /* Stack Stats Vertically */
+    .production-stats-area {
+        margin-top: 20px;
+        padding-top: 20px;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .stat-item-modern {
+        width: 100%;
+        padding: 0;
+        border-bottom: 1px solid var(--eng-grid-line);
+        padding-bottom: 20px;
+    }
+
+    .stat-item-modern:last-child {
+        border-bottom: none;
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+    }
+
+    .stat-value.text-value {
+        font-size: 1.8rem;
+    }
+
+    .stat-header {
+        align-items: center;
+        /* Better alignment for stacked */
+    }
+
+    .tech-dot {
+        margin-top: 4px;
+        /* Align with text */
+    }
+}
+
+/* ============================================
+   GLIGHTBOX - МАКСИМАЛЬНЫЙ РАЗМЕР ИЗОБРАЖЕНИЯ
+   Переопределяем ограничения для слайдера на главной
+   ============================================ */
+
+/* Контейнер слайда - максимальное использование экрана */
+.glightbox-container .gslide-inner-content {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    position: relative !important;
+}
+
+/* Медиа-контейнер - убираем ограничение 55vh, расширяем до максимума */
+.glightbox-container .gslide-media {
+    max-height: 95vh !important;
+    max-width: 95vw !important;
+    width: auto !important;
+    height: auto !important;
+    background: transparent !important;
+}
+
+/* Контейнер изображения */
+.glightbox-container .gslide-image {
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Само изображение - максимальный размер с сохранением пропорций */
+.glightbox-container .gslide-image img {
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+
+/* ============================================
+   GLIGHTBOX - ПОДПИСЬ КАК OVERLAY ПЛАШКА
+   Позиционируем поверх изображения внизу
+   ============================================ */
+
+/* Блок описания - overlay плашка внизу изображения */
+.glightbox-container .gslide-description {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%) !important;
+    padding: 2.5rem 1.5rem 1.25rem 1.5rem !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    pointer-events: auto !important;
+    z-index: 100 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Внутренний контейнер описания */
+.glightbox-container .gdesc-inner {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    max-width: 900px !important;
+    text-align: center !important;
+}
+
+/* Заголовок подписи */
+.glightbox-container .gslide-title {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    margin: 0 0 0.5rem 0 !important;
+    line-height: 1.4 !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Текст описания */
+.glightbox-container .gslide-desc {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .glightbox-container .gslide-description {
+        padding: 2rem 1rem 1rem 1rem !important;
+    }
+
+    .glightbox-container .gslide-title {
+        font-size: 1rem !important;
+    }
+
+    .glightbox-container .gslide-desc {
+        font-size: 0.875rem !important;
+    }
+}

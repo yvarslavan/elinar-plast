@@ -1,0 +1,308 @@
+/* ============================================
+   PREMIUM INDUSTRIAL TIMELINE - DARK THEME
+   ============================================ */
+
+.process-timeline-section {
+    background-color: #334155; /* Even lighter industrial slate */
+    padding: 100px 0;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background elements for industrial feel */
+.process-timeline-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(51, 65, 85, 0.8), rgba(51, 65, 85, 0.8)),
+        url('../images/timeline_phone.webp'); /* Use the phone timeline image as requested */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.6; /* Increased opacity of the image itself relative to the lighter background */
+    z-index: 0;
+    pointer-events: none;
+}
+
+.process-timeline-section .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+}
+
+/* Section Header */
+.process-timeline-section .section-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.process-timeline-section .section-header__title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.process-timeline-section .section-header__title .highlight {
+    color: #f97316; /* Orange Accent */
+    position: relative;
+    display: inline-block;
+}
+
+.process-timeline-section .section-header__desc {
+    font-size: 1.25rem;
+    color: #94a3b8; /* Slate 400 */
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Timeline Container */
+.process-timeline {
+    position: relative;
+    padding: 40px 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Vertical Line Container */
+.timeline-track {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+/* The Active Progress Line */
+.timeline-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%; /* Will be animated */
+    background: linear-gradient(to bottom, #f97316, #ea580c);
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+    transition: height 0.1s linear; /* Smooth update from JS */
+}
+
+/* Timeline Items */
+.timeline-item {
+    position: relative;
+    margin-bottom: 120px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 0; /* Hidden initially for fade-in */
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Content Layout - Desktop Alternating */
+.timeline-content-wrapper {
+    width: 50%;
+    padding: 0 60px;
+    box-sizing: border-box;
+}
+
+.timeline-item:nth-child(odd) .timeline-content-wrapper {
+    margin-right: auto;
+    text-align: right;
+    padding-left: 0;
+}
+
+.timeline-item:nth-child(even) .timeline-content-wrapper {
+    margin-left: auto;
+    text-align: left;
+    padding-right: 0;
+}
+
+/* Markers (Circles) */
+.timeline-marker-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-marker {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #334155;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #94a3b8;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 0 8px #334155; /* Fake margin to cover line */
+}
+
+/* Active Marker State */
+.timeline-item.active .timeline-marker {
+    border-color: #f97316;
+    color: #ffffff;
+    background-color: #f97316;
+    box-shadow: 0 0 0 8px #334155, 0 0 30px rgba(249, 115, 22, 0.6);
+    transform: scale(1.2);
+}
+
+.timeline-number {
+    position: relative;
+    z-index: 2;
+}
+
+/* Content Styling */
+.timeline-content {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.timeline-item:hover .timeline-content {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(249, 115, 22, 0.3);
+    transform: translateY(-5px);
+}
+
+.timeline-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Align titles correctly */
+.timeline-item:nth-child(odd) .timeline-title {
+    justify-content: flex-end;
+}
+.timeline-item:nth-child(even) .timeline-title {
+    justify-content: flex-start;
+}
+
+.timeline-desc {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #cbd5e1; /* Slate 300 */
+    margin-bottom: 0;
+}
+
+.timeline-meta {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.timeline-item:nth-child(odd) .timeline-meta {
+    justify-content: flex-end;
+}
+
+/* Icons in title */
+.timeline-icon {
+    width: 24px;
+    height: 24px;
+    color: #f97316;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .process-timeline-section {
+        padding: 60px 0;
+    }
+
+    .process-timeline {
+        padding-left: 20px; /* Space for line on left */
+    }
+
+    /* Move line to left */
+    .timeline-track {
+        left: 30px;
+        transform: none;
+    }
+
+    /* Adjust items to be full width right of line */
+    .timeline-item {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 60px; /* Space for marker */
+        width: auto;
+        margin-bottom: 60px;
+    }
+
+    .timeline-content-wrapper {
+        width: 100%;
+        padding: 0;
+        margin: 0 !important; /* Override even/odd margins */
+        text-align: left !important; /* Force left align */
+    }
+
+    /* Move marker to left line */
+    .timeline-marker-wrapper {
+        left: 30px;
+        top: 0;
+        transform: translateX(-50%);
+    }
+
+    .timeline-marker {
+        width: 48px;
+        height: 48px;
+        font-size: 1.25rem;
+        box-shadow: 0 0 0 6px #334155;
+    }
+    
+    .timeline-item:hover .timeline-marker {
+        box-shadow: 0 0 0 6px #334155, 0 0 20px rgba(249, 115, 22, 0.4);
+    }
+
+    /* Re-align title for mobile */
+    .timeline-item:nth-child(odd) .timeline-title {
+        justify-content: flex-start;
+    }
+    
+    .timeline-item:nth-child(odd) .timeline-meta {
+        justify-content: flex-start;
+    }
+
+    .timeline-content {
+        padding: 1.5rem;
+    }
+    
+    .section-header__title {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,415 @@
+/* ============================================
+   PRODUCTION CYCLE - PROGRESS PIPELINE DESIGN
+   ============================================ */
+
+:root {
+    --brand-blue: #0066CC;
+    --brand-blue-dark: #004C99;
+    --text-dark: #1a1a1a;
+    --text-gray: #666666;
+    --bg-light: #f5f5f5;
+    --track-gray: #e0e0e0;
+    --white: #ffffff;
+}
+
+/* Section Container */
+.production-cycle {
+    padding: 80px 0;
+    background: var(--white);
+}
+
+.production-cycle__title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 60px;
+    line-height: 1.2;
+}
+
+/* Pipeline Container */
+.production-pipeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Progress Track (Толстая линия) */
+.pipeline-track {
+    position: absolute;
+    top: 130px;
+    /* Centered relative to 260px marker */
+    left: 10%;
+    right: 10%;
+    height: 8px;
+    background: var(--track-gray);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.pipeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-blue-dark) 100%);
+    border-radius: 4px;
+    animation: progressFill 2s ease-out forwards;
+}
+
+@keyframes progressFill {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+/* Steps Container */
+.pipeline-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+}
+
+/* Individual Step */
+.pipeline-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 280px;
+    transition: transform 0.3s ease;
+}
+
+.pipeline-step:hover {
+    transform: translateY(-8px);
+}
+
+/* Step Marker (Большой круг с иконкой) */
+.step-marker {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    background: var(--white);
+    border: 4px solid var(--brand-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+    transition: all 0.3s ease;
+    overflow: visible !important;
+    /* Allow step numbers to overflow */
+}
+
+.step-image-web {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Fill the circle */
+    display: block;
+    border-radius: 50%;
+}
+
+.step-number {
+    position: absolute;
+    top: 15%; /* Adjusted slightly from 14.65% for visual alignment */
+    right: 15%; /* Adjusted slightly from 14.65% for visual alignment */
+    transform: translate(50%, -50%); /* Center the badge */
+    width: 32px;
+    height: 32px;
+    background: var(--brand-blue);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #fff; /* Thicker white border */
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.pipeline-step:hover .step-marker {
+    border-width: 6px;
+    box-shadow: 0 8px 24px rgba(0, 102, 204, 0.25);
+    /* background: var(--brand-blue);  Removed background change on hover as it's covered by image */
+}
+
+/* Step Content */
+.step-content {
+    width: 100%;
+    padding-top: 10px;
+}
+
+.step-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.step-description {
+    font-size: 14px;
+    color: var(--text-gray);
+    line-height: 1.5;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.pipeline-step:hover .step-description {
+    opacity: 1;
+    max-height: 100px;
+}
+
+/* ============================================
+   STEP COLORS - Разные цвета для каждого шага
+   ============================================ */
+
+/* Step 1: Оснастка - Синий (Blue) */
+.pipeline-step[data-step="1"] .step-marker {
+    border-color: #0056B3;
+}
+
+.pipeline-step[data-step="1"] .step-number {
+    background: #0056B3;
+}
+
+.pipeline-step[data-step="1"]:hover .step-marker {
+    /* background: #0056B3; Removed background change */
+}
+
+/* Step 2: Производство - Зеленый (Green) */
+.pipeline-step[data-step="2"] .step-marker {
+    border-color: #10B981;
+}
+
+.pipeline-step[data-step="2"] .step-number {
+    background: #10B981;
+}
+
+.pipeline-step[data-step="2"]:hover .step-marker {
+    /* background: #10B981; Removed background change */
+}
+
+/* Step 3: Контроль - Оранжевый (Orange) */
+.pipeline-step[data-step="3"] .step-marker {
+    border-color: #F59E0B;
+}
+
+.pipeline-step[data-step="3"] .step-number {
+    background: #F59E0B;
+}
+
+.pipeline-step[data-step="3"]:hover .step-marker {
+    /* background: #F59E0B; Removed background change */
+}
+
+/* Step 4: Логистика - Фиолетовый (Purple) */
+.pipeline-step[data-step="4"] .step-marker {
+    border-color: #8B5CF6;
+}
+
+.pipeline-step[data-step="4"] .step-number {
+    background: #8B5CF6;
+}
+
+.pipeline-step[data-step="4"]:hover .step-marker {
+    /* background: #8B5CF6; Removed background change */
+}
+
+/* ============================================
+   TABLET (768px - 1024px)
+   ============================================ */
+@media (max-width: 1024px) {
+    .production-cycle__title {
+        font-size: 32px;
+        margin-bottom: 50px;
+    }
+
+    .step-marker {
+        width: 180px;
+        height: 180px;
+    }
+
+    .pipeline-track {
+        top: 90px;
+    }
+
+    .step-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .step-title {
+        font-size: 16px;
+    }
+
+    .step-description {
+        font-size: 13px;
+    }
+}
+
+/* ============================================
+   MOBILE FIRST - VERTICAL TIMELINE (<768px)
+   ============================================ */
+@media (max-width: 767px) {
+    .production-cycle {
+        padding: 60px 0;
+    }
+
+    .production-cycle__title {
+        font-size: 28px;
+        margin-bottom: 40px;
+        padding: 0 20px;
+    }
+
+    /* Вертикальная линия слева */
+    .pipeline-track {
+        position: absolute;
+        top: 0;
+        left: 65px;
+        /* Centered with 130px marker */
+        right: auto;
+        bottom: 0;
+        width: 6px;
+        height: auto;
+        border-radius: 3px;
+    }
+
+    .pipeline-progress {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, var(--brand-blue) 0%, var(--brand-blue-dark) 100%);
+        animation: progressFillVertical 2s ease-out forwards;
+    }
+
+    @keyframes progressFillVertical {
+        from {
+            height: 0%;
+        }
+
+        to {
+            height: 100%;
+        }
+    }
+
+    /* Вертикальный список */
+    .pipeline-steps {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+        padding-left: 20px;
+    }
+
+    .pipeline-step {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .pipeline-step:hover {
+        transform: translateX(8px);
+    }
+
+    /* Маркер слева */
+    .step-marker {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 0;
+        margin-right: 20px;
+        flex-shrink: 0;
+        overflow: visible !important;
+    }
+
+    .step-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+        top: auto;
+        bottom: 15%;
+        right: 15%;
+        transform: translate(50%, 50%);
+        border-width: 2px;
+    }
+
+    /* Контент справа */
+    .step-content {
+        flex: 1;
+        padding-top: 10px;
+    }
+
+    .step-title {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .step-description {
+        font-size: 14px;
+        opacity: 1;
+        max-height: none;
+        display: block;
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 480px) {
+    .production-cycle__title {
+        font-size: 24px;
+    }
+
+    .pipeline-track {
+        left: 50px;
+        /* Centered with 100px marker */
+    }
+
+    .step-marker {
+        width: 100px;
+        height: 100px;
+        margin-right: 15px;
+    }
+
+    .step-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .step-number {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+        top: auto;
+        bottom: 15%;
+        right: 15%;
+        transform: translate(50%, 50%);
+    }
+
+    .step-title {
+        font-size: 16px;
+    }
+
+    .step-description {
+        font-size: 13px;
+    }
+}

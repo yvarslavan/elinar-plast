@@ -1,0 +1,35 @@
+# Video files (too large for git)
+wp-content/themes/elinar-plast/assets/video/*.mp4
+wp-content/themes/elinar-plast/assets/video/*.mov
+wp-content/themes/elinar-plast/assets/video/*.avi
+
+
+# Oracle JDK (should not be in repository)
+wp-content/themes/elinar-plast/oracleJdk-25/
+
+# Contact form log file
+wp-content/themes/elinar-plast/contact-form-log.txt
+wp-content/themes/elinar-plast/assets/images/video/*.mp4
+
+# WordPress backups (All-in-One WP Migration)
+wp-content/ai1wm-backups/
+*.wpress
+
+# Markdown documentation files
+*.md
+
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Executable files
+*.exe
+wp-content/themes/elinar-plast/tailwind.exe
+.vscode/
+.kombai/
+logs/
+app/logs/
+conf/
+app/sql/
+app/public/
+node_modules

@@ -1,0 +1,259 @@
+/* ============================================
+   BREADCRUMBS COMPONENT
+   Modern, accessible, SEO-friendly navigation
+   ============================================ */
+
+/* Обёртка для breadcrumbs - прозрачная по умолчанию */
+.breadcrumbs-wrapper {
+    background: transparent;
+    border-bottom: none;
+    position: absolute;
+    z-index: 999;
+    padding: 0.75rem 0;
+    top: var(--header-height, 80px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    transition: background 0.3s ease, border 0.3s ease;
+}
+
+/* Белый фон при скролле (когда header получает класс .scrolled) */
+.site-header.scrolled~.breadcrumbs-wrapper {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    position: fixed;
+    top: calc(var(--header-height, 80px) - 10px);
+}
+
+.breadcrumbs {
+    padding: 0;
+    background: transparent;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.breadcrumbs-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumbs-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Ссылки - белые по умолчанию (на прозрачном фоне) */
+.breadcrumbs-link {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Синие ссылки при скролле */
+.site-header.scrolled~.breadcrumbs-wrapper .breadcrumbs-link {
+    color: #3b82f6;
+    text-shadow: none;
+}
+
+.breadcrumbs-link:hover {
+    color: rgba(255, 255, 255, 1);
+    text-decoration: underline;
+}
+
+/* Hover при скролле */
+.site-header.scrolled~.breadcrumbs-wrapper .breadcrumbs-link:hover {
+    color: #2563eb;
+}
+
+.breadcrumbs-link:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Текущая страница (неактивная) - белая по умолчанию */
+.breadcrumbs-item.is-current .breadcrumbs-text {
+    color: #ffffff;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Неактивные элементы (родительские пункты меню без ссылок) - белые */
+.breadcrumbs-text {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Темные цвета при скролле */
+.site-header.scrolled~.breadcrumbs-wrapper .breadcrumbs-item.is-current .breadcrumbs-text {
+    color: #1e293b !important;
+    text-shadow: none !important;
+}
+
+.site-header.scrolled~.breadcrumbs-wrapper .breadcrumbs-text {
+    color: #64748b !important;
+    text-shadow: none !important;
+}
+
+/* Иконка домика - белая по умолчанию с сильной тенью */
+.breadcrumbs-home-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 2px rgba(0, 0, 0, 0.6));
+    stroke: currentColor;
+    stroke-width: 2.5;
+}
+
+/* Иконка без фильтра при скролле */
+.site-header.scrolled~.breadcrumbs-wrapper .breadcrumbs-home-icon {
+    filter: none;
+    stroke-width: 2;
+}
+
+.breadcrumbs-home {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Разделитель - белый по умолчанию */
+.breadcrumbs-separator {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1em;
+    user-select: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Серый при скролле */
+.site-header.scrolled~.breadcrumbs-wrapper .breadcrumbs-separator {
+    color: #94a3b8;
+    text-shadow: none;
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ============================================
+   MOBILE OPTIMIZATION
+   ============================================ */
+
+@media (max-width: 768px) {
+    .breadcrumbs-wrapper {
+        padding: 0.5rem 0;
+        top: calc(var(--header-height, 80px) - 10px);
+    }
+
+    .site-header.scrolled~.breadcrumbs-wrapper {
+        top: calc(var(--header-height, 80px) - 20px);
+    }
+
+    .breadcrumbs {
+        font-size: 0.8125rem;
+        position: relative;
+    }
+
+    .breadcrumbs-list {
+        gap: 0.375rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        scroll-snap-type: x proximity;
+    }
+
+    .breadcrumbs-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .breadcrumbs-item {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+    }
+
+    /* Градиент справа для индикации скролла */
+    .breadcrumbs::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 2rem;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9));
+        pointer-events: none;
+    }
+}
+
+/* ============================================
+   DARK THEME SUPPORT (если используется)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .breadcrumbs-link {
+        color: #60a5fa;
+        /* Светлее синий для темной темы */
+    }
+
+    .breadcrumbs-link:hover {
+        color: #93c5fd;
+    }
+
+    .breadcrumbs-item.is-current .breadcrumbs-text {
+        color: #f1f5f9;
+    }
+
+    .breadcrumbs-text {
+        color: #94a3b8;
+    }
+
+    .breadcrumbs-separator {
+        color: #64748b;
+    }
+
+    .breadcrumbs::after {
+        background: linear-gradient(to right, transparent, rgba(15, 23, 42, 0.9));
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY IMPROVEMENTS
+   ============================================ */
+
+/* Увеличенная область клика на мобиле */
+@media (max-width: 768px) {
+    .breadcrumbs-link {
+        padding: 0.25rem 0;
+        min-height: 44px;
+        /* Минимум для touch targets */
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* Убрана анимация для стабильности верстки */
+
+/* Hover эффект для иконки домика */
+.breadcrumbs-link.breadcrumbs-home:hover .breadcrumbs-home-icon {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}

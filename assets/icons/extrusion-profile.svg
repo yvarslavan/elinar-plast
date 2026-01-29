@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Профиль в разрезе: П-образный с размерами -->
+  <path d="M10 8h36v12H22v36H10z" />
+  <path d="M22 20h20" stroke-opacity="0.6"/>
+  <line x1="26" y1="44" x2="46" y2="44" stroke-opacity="0.6"/>
+  <line x1="30" y1="10" x2="30" y2="4" stroke-opacity="0.4"/>
+  <line x1="40" y1="10" x2="40" y2="4" stroke-opacity="0.4"/>
+</svg>
+
