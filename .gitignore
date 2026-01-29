@@ -1,0 +1,28 @@
+# Log files
+logs/
+*.log
+
+# Debug files
+app/public/.cursor/
+
+# Large files and directories
+*.sql
+*.dump
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/settings.json
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if applicable)
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.production
