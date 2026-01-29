@@ -1,0 +1,15 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:10004",
+  "loginUser": "admin",
+  "loginPassword": "Lalee1966",
+  "executionArgs": {
+    "projectName": "elinarplast",
+    "projectPath": "C:\\Users\\VARSLAVAN\\Local Sites\\elinarplast\\app\\public",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {}
+  }
+}

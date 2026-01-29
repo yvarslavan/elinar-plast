@@ -3,7 +3,6 @@ wp-content/themes/elinar-plast/assets/video/*.mp4
 wp-content/themes/elinar-plast/assets/video/*.mov
 wp-content/themes/elinar-plast/assets/video/*.avi
 
-
 # Oracle JDK (should not be in repository)
 wp-content/themes/elinar-plast/oracleJdk-25/
 
@@ -25,11 +24,40 @@ playwright/.cache/
 # Executable files
 *.exe
 wp-content/themes/elinar-plast/tailwind.exe
+
+# Log files
+logs/
+*.log
+
+# Debug files
+app/public/.cursor/
+
+# Large files and directories
+*.sql
+*.dump
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/settings.json
+.idea/
 .vscode/
 .kombai/
-logs/
-app/logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if applicable)
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Additional directories
 conf/
+app/logs/
 app/sql/
 app/public/
-node_modules

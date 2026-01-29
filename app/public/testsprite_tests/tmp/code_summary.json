@@ -1,0 +1,210 @@
+{
+  "tech_stack": [
+    "PHP",
+    "WordPress",
+    "JavaScript",
+    "CSS",
+    "HTML",
+    "MySQL"
+  ],
+  "features": [
+    {
+      "name": "Theme Setup",
+      "description": "Настройка темы WordPress с поддержкой заголовков, миниатюр постов и HTML5 элементов. Регистрация меню навигации.",
+      "files": [
+        "wp-content/themes/elinar-plast/functions.php"
+      ]
+    },
+    {
+      "name": "Scripts and Styles Enqueue",
+      "description": "Подключение стилей, шрифтов Google Fonts, GLightbox для галерей, Yandex Maps API и JavaScript файлов.",
+      "files": [
+        "wp-content/themes/elinar-plast/functions.php"
+      ]
+    },
+    {
+      "name": "Navigation Menu",
+      "description": "Основное меню навигации с поддержкой подменю. Автоматическое удаление пункта 'Главная' из меню.",
+      "files": [
+        "wp-content/themes/elinar-plast/functions.php",
+        "wp-content/themes/elinar-plast/header.php"
+      ]
+    },
+    {
+      "name": "Breadcrumbs Navigation",
+      "description": "Система хлебных крошек с поддержкой кастомных URL и иерархии страниц WordPress.",
+      "files": [
+        "wp-content/themes/elinar-plast/functions.php"
+      ]
+    },
+    {
+      "name": "Custom URL Routing",
+      "description": "Роутинг для статических прототипов без создания реальных страниц в WordPress. Поддержка маршрутов development-production, about, technologies.",
+      "files": [
+        "wp-content/themes/elinar-plast/functions.php"
+      ]
+    },
+    {
+      "name": "Contact Form AJAX Handler",
+      "description": "AJAX обработчик формы обратной связи с валидацией, nonce проверкой, логированием заявок и интеграцией с WP Mail SMTP.",
+      "files": [
+        "wp-content/themes/elinar-plast/functions.php"
+      ]
+    },
+    {
+      "name": "Mobile Menu",
+      "description": "Адаптивное мобильное меню с toggle функциональностью и поддержкой подменю.",
+      "files": [
+        "wp-content/themes/elinar-plast/assets/js/main.js",
+        "wp-content/themes/elinar-plast/header.php"
+      ]
+    },
+    {
+      "name": "Header Scroll Effect",
+      "description": "Изменение состояния хедера при прокрутке страницы (прозрачный/белый фон).",
+      "files": [
+        "wp-content/themes/elinar-plast/assets/js/main.js"
+      ]
+    },
+    {
+      "name": "Product Modals",
+      "description": "Модальные окна для продуктов: ПВХ термовставки, фаскообразователи, технические профили, литье под давлением.",
+      "files": [
+        "wp-content/themes/elinar-plast/footer.php",
+        "wp-content/themes/elinar-plast/assets/js/main.js"
+      ]
+    },
+    {
+      "name": "Production Gallery Slider",
+      "description": "Слайдер галереи производства с навигацией, автоматическим переключением и счетчиком слайдов.",
+      "files": [
+        "wp-content/themes/elinar-plast/assets/js/production-slider.js",
+        "wp-content/themes/elinar-plast/assets/css/production-slider.css",
+        "wp-content/themes/elinar-plast/template-parts/production-slider.php"
+      ]
+    },
+    {
+      "name": "Zigzag Product Sliders",
+      "description": "Zigzag-слайдеры для страницы продукции с dots и стрелками навигации.",
+      "files": [
+        "wp-content/themes/elinar-plast/assets/js/main.js",
+        "wp-content/themes/elinar-plast/page-products.php"
+      ]
+    },
+    {
+      "name": "FAQ Accordion",
+      "description": "FAQ аккордеон с плавной анимацией открытия/закрытия.",
+      "files": [
+        "wp-content/themes/elinar-plast/assets/js/main.js",
+        "wp-content/themes/elinar-plast/page-technologies-production.php"
+      ]
+    },
+    {
+      "name": "GLightbox Integration",
+      "description": "Интеграция GLightbox для отображения сертификатов и галерей изображений.",
+      "files": [
+        "wp-content/themes/elinar-plast/functions.php",
+        "wp-content/themes/elinar-plast/assets/css/glightbox-custom.css",
+        "wp-content/themes/elinar-plast/assets/js/main.js"
+      ]
+    },
+    {
+      "name": "Floating Action Button",
+      "description": "FAB (Floating Action Button) с меню мессенджеров WhatsApp и Telegram.",
+      "files": [
+        "wp-content/themes/elinar-plast/footer.php",
+        "wp-content/themes/elinar-plast/assets/js/main.js"
+      ]
+    },
+    {
+      "name": "Scroll To Top Button",
+      "description": "Кнопка 'Вернуться наверх' с появлением при прокрутке страницы.",
+      "files": [
+        "wp-content/themes/elinar-plast/footer.php",
+        "wp-content/themes/elinar-plast/assets/js/main.js"
+      ]
+    },
+    {
+      "name": "Yandex Maps Integration",
+      "description": "Интеграция с Yandex Maps API для отображения карты на странице контактов.",
+      "files": [
+        "wp-content/themes/elinar-plast/functions.php",
+        "wp-content/themes/elinar-plast/assets/js/main.js",
+        "wp-content/themes/elinar-plast/page-contacts.php",
+        "wp-content/themes/elinar-plast/footer.php"
+      ]
+    },
+    {
+      "name": "Quote Request Form",
+      "description": "Форма запроса расчета с поддержкой загрузки файлов (чертежи, изображения) через AJAX.",
+      "files": [
+        "wp-content/themes/elinar-plast/assets/js/quote-form.js",
+        "wp-content/themes/elinar-plast/assets/css/quote-form.css",
+        "wp-content/themes/elinar-plast/template-parts/quote-form.php",
+        "wp-content/themes/elinar-plast/page-quote-request.php"
+      ]
+    },
+    {
+      "name": "Production Cycle Visualization",
+      "description": "Визуализация производственного цикла с прогресс-пайплайном и карточками этапов.",
+      "files": [
+        "wp-content/themes/elinar-plast/assets/css/production-cycle.css",
+        "wp-content/themes/elinar-plast/assets/css/production-cycle-cards.css",
+        "wp-content/themes/elinar-plast/template-parts/production-cycle.php",
+        "wp-content/themes/elinar-plast/template-parts/production-cycle-cards.php"
+      ]
+    },
+    {
+      "name": "Call Back Modal",
+      "description": "Модальное окно 'Заказать звонок' с контактной информацией.",
+      "files": [
+        "wp-content/themes/elinar-plast/footer.php",
+        "wp-content/themes/elinar-plast/assets/js/main.js"
+      ]
+    },
+    {
+      "name": "Cookie Banner",
+      "description": "Баннер уведомления о cookies с возможностью принятия.",
+      "files": [
+        "wp-content/themes/elinar-plast/footer.php",
+        "wp-content/themes/elinar-plast/assets/js/main.js"
+      ]
+    },
+    {
+      "name": "Opera Android Fix",
+      "description": "Специальные исправления для Opera на Android для корректного отображения иконок и карточек.",
+      "files": [
+        "wp-content/themes/elinar-plast/header.php"
+      ]
+    },
+    {
+      "name": "Page Templates",
+      "description": "Шаблоны страниц: главная, о компании, продукция, контакты, партнеры, разработка и производство, технологии.",
+      "files": [
+        "wp-content/themes/elinar-plast/front-page.php",
+        "wp-content/themes/elinar-plast/page-about.php",
+        "wp-content/themes/elinar-plast/page-products.php",
+        "wp-content/themes/elinar-plast/page-contacts.php",
+        "wp-content/themes/elinar-plast/page-partners.php",
+        "wp-content/themes/elinar-plast/page-services-development.php",
+        "wp-content/themes/elinar-plast/page-technologies-production.php",
+        "wp-content/themes/elinar-plast/page-quote-request.php"
+      ]
+    },
+    {
+      "name": "Header Component",
+      "description": "Шапка сайта с логотипом, навигационным меню, кнопкой заказа звонка и иконками социальных сетей.",
+      "files": [
+        "wp-content/themes/elinar-plast/header.php"
+      ]
+    },
+    {
+      "name": "Footer Component",
+      "description": "Подвал сайта с контактной информацией, модальными окнами продуктов, FAB и кнопкой вернуться наверх.",
+      "files": [
+        "wp-content/themes/elinar-plast/footer.php"
+      ]
+    }
+  ]
+}
+

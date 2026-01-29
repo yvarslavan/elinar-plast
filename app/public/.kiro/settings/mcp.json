@@ -1,0 +1,73 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-filesystem",
+        "wp-content/themes/elinar-plast"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "read_file",
+        "list_directory",
+        "search_files"
+      ]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-puppeteer"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "screenshot",
+        "navigate",
+        "get_page_content",
+        "pdf",
+        "puppeteer_screenshot",
+        "puppeteer_hover",
+        "puppeteer_navigate",
+        "puppeteer_evaluate"
+      ]
+    },
+    "sqlite": {
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-sqlite",
+        "wp-content/database.db"
+      ],
+      "disabled": true,
+      "autoApprove": [
+        "query",
+        "list_tables"
+      ]
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+      },
+      "disabled": true,
+      "autoApprove": [
+        "search_repositories",
+        "get_file_contents"
+      ]
+    },
+    "web-search": {
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": ""
+      },
+      "disabled": true,
+      "autoApprove": [
+        "search"
+      ]
+    }
+  }
+}
