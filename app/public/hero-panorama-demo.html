@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Hero Panorama Demo - Элинар Пласт</title>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- Curtains.js -->
+    <script src="https://cdn.jsdelivr.net/npm/curtainsjs@8.1.6/dist/curtains.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+            background: #0f172a;
+        }
+
+        /* Hero Panorama Container */
+        .hero-panorama-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 700px;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        /* WebGL Canvas Wrapper */
+        .hero-canvas-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .plane-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-panorama-image {
+            display: block; /* Показываем как fallback */
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .plane-wrapper.webgl-active .hero-panorama-image {
+            display: none; /* Скрываем когда WebGL работает */
+        }
+
+        /* Custom Cursor Lens */
+        .cursor-lens {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.15s ease-out;
+            box-shadow: 0 0 30px rgba(0, 82, 212, 0.5),
+                        inset 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .cursor-lens.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .cursor-lens::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Hero Overlay */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5));
+            z-index: 1;
+        }
+
+        /* Hero Content */
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .hero-text-block {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-title-animated {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-text-animated {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Glitch Loader */
+        .glitch-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .glitch-loader.hidden {
+            opacity: 0;
+        }
+
+        .glitch-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(0, 82, 212, 0.1) 25%,
+                rgba(255, 107, 53, 0.1) 50%,
+                rgba(0, 82, 212, 0.1) 75%,
+                transparent 100%);
+            animation: glitchSlide 0.8s ease-in-out;
+        }
+
+        .glitch-layer:nth-child(2) {
+            background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                transparent 100%);
+            animation: glitchSlide 0.8s ease-in-out 0.1s;
+        }
+
+        .glitch-layer:nth-child(3) {
+            background: rgba(15, 23, 42, 0.8);
+            animation: glitchFade 0.8s ease-in-out;
+        }
+
+        @keyframes glitchSlide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes glitchFade {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Info Panel */
+        .info-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.9);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-panel h4 {
+            margin-bottom: 0.5rem;
+            color: #60a5fa;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-panel li {
+            margin: 0.25rem 0;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-panorama-container {
+                cursor: auto;
+            }
+
+            .cursor-lens {
+                display: none;
+            }
+
+            .hero-title-animated {
+                font-size: 2rem;
+            }
+
+            .hero-text-animated {
+                font-size: 1rem;
+            }
+
+            .info-panel {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Interactive Panorama Hero -->
+    <div class="hero-panorama-container" id="heroPanorama">
+        <!-- WebGL Canvas -->
+        <div id="canvas-container" class="hero-canvas-wrapper">
+            <div class="plane-wrapper">
+                <img
+                    src="<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg-desktop_technologies-and-contract-manufacturing.webp"
+                    crossorigin="anonymous"
+                    data-sampler="uTexture"
+                    alt="Производственный цех"
+                    class="hero-panorama-image"
+                />
+            </div>
+        </div>
+
+        <!-- Custom Cursor Lens -->
+        <div class="cursor-lens" id="cursorLens"></div>
+
+        <!-- Overlay -->
+        <div class="hero-overlay"></div>
+
+        <!-- Content -->
+        <div class="hero-content-wrapper">
+            <div class="hero-text-block">
+                <h1 class="hero-title-animated">Немецкое качество на российском производстве</h1>
+                <p class="hero-text-animated">ООО «Элинар Пласт» — это российско-германское предприятие полного цикла, расположенное в Московской области (с. Атепцево). Мы специализируемся на производстве изделий из пластмасс методом экструзии и литья под давлением.</p>
+                <p class="hero-text-animated">Благодаря партнерству с немецкой компанией Multiplast Kunststoffverarbeitung GmbH и использованию немецких экструзионных линий, мы обеспечиваем европейскую точность изделий для фасадных систем, автомобильной промышленности и бытовой техники.</p>
+            </div>
+        </div>
+
+        <!-- Glitch Loader -->
+        <div class="glitch-loader" id="glitchLoader">
+            <div class="glitch-layer"></div>
+            <div class="glitch-layer"></div>
+            <div class="glitch-layer"></div>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel">
+        <h4>🎨 Эффекты:</h4>
+        <ul>
+            <li>✓ Автоматическая панорама</li>
+            <li>✓ Parallax по мыши</li>
+            <li>✓ Линза-увеличитель</li>
+            <li>✓ Glitch-загрузка</li>
+            <li>✓ WebGL (Curtains.js)</li>
+        </ul>
+    </div>
+
+    <script>
+        // Initialize Interactive Panorama
+        document.addEventListener('DOMContentLoaded', function() {
+            initInteractivePanorama();
+        });
+
+        function initInteractivePanorama() {
+            console.log('🎬 Initializing Interactive Panorama...');
+
+            if (typeof gsap === 'undefined') {
+                console.error('❌ GSAP not loaded');
+                return;
+            }
+            console.log('✅ GSAP loaded');
+
+            if (typeof Curtains === 'undefined') {
+                console.error('❌ Curtains.js not loaded');
+                return;
+            }
+            console.log('✅ Curtains.js loaded');
+
+            const container = document.getElementById('canvas-container');
+            const cursorLens = document.getElementById('cursorLens');
+            const glitchLoader = document.getElementById('glitchLoader');
+            const planeWrapper = document.querySelector('.plane-wrapper');
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let isHovering = false;
+
+            // Initialize Curtains.js
+            console.log('🎨 Creating Curtains instance...');
+            const curtains = new Curtains({
+                container: container,
+                pixelRatio: Math.min(1.5, window.devicePixelRatio),
+                premultipliedAlpha: true,
+                alpha: true
+            });
+
+            curtains.onError(() => {
+                console.error('❌ WebGL not supported or failed to initialize');
+                glitchLoader.classList.add('hidden');
+                // Fallback: показываем статичное изображение
+                animateContent();
+            });
+
+            curtains.onSuccess(() => {
+                console.log('✅ WebGL initialized successfully');
+            });
+
+            // Shaders
+            const vs = `
+                precision mediump float;
+                attribute vec3 aVertexPosition;
+                attribute vec2 aTextureCoord;
+                uniform mat4 uMVMatrix;
+                uniform mat4 uPMatrix;
+                uniform mat4 uTextureMatrix0;
+                varying vec2 vTextureCoord;
+                void main() {
+                    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+                    vTextureCoord = (uTextureMatrix0 * vec4(aTextureCoord, 0.0, 1.0)).xy;
+                }
+            `;
+
+            const fs = `
+                precision mediump float;
+                varying vec2 vTextureCoord;
+                uniform sampler2D uTexture;
+                uniform float uTime;
+                uniform vec2 uMouse;
+                uniform float uLensStrength;
+
+                void main() {
+                    vec2 uv = vTextureCoord;
+
+                    // Auto-panorama
+                    float autoPan = uTime * 0.008;
+                    uv.x += autoPan;
+
+                    // Parallax
+                    vec2 parallax = (uMouse - 0.5) * 0.04;
+                    uv += parallax;
+
+                    // Lens distortion
+                    vec2 toCenter = uv - uMouse;
+                    float dist = length(toCenter);
+                    float lensRadius = 0.12;
+
+                    if (dist < lensRadius && uLensStrength > 0.0) {
+                        float strength = uLensStrength * (1.0 - dist / lensRadius);
+                        uv += toCenter * strength * 0.25;
+                    }
+
+                    // Wrap UV
+                    uv.x = fract(uv.x);
+                    uv.y = clamp(uv.y, 0.0, 1.0);
+
+                    vec4 color = texture2D(uTexture, uv);
+                    gl_FragColor = color;
+                }
+            `;
+
+            const params = {
+                vertexShader: vs,
+                fragmentShader: fs,
+                uniforms: {
+                    time: { name: 'uTime', type: '1f', value: 0 },
+                    mouse: { name: 'uMouse', type: '2f', value: [0.5, 0.5] },
+                    lensStrength: { name: 'uLensStrength', type: '1f', value: 0 }
+                }
+            };
+
+            const plane = new Plane(curtains, planeWrapper, params);
+
+            plane.onReady(() => {
+                console.log('✅ Plane ready, hiding fallback image');
+                planeWrapper.classList.add('webgl-active');
+            });
+
+            plane.onRender(() => {
+                plane.uniforms.time.value++;
+
+                const targetX = mouseX / window.innerWidth;
+                const targetY = 1.0 - (mouseY / window.innerHeight);
+                plane.uniforms.mouse.value[0] += (targetX - plane.uniforms.mouse.value[0]) * 0.05;
+                plane.uniforms.mouse.value[1] += (targetY - plane.uniforms.mouse.value[1]) * 0.05;
+
+                const targetStrength = isHovering ? 1.0 : 0.0;
+                plane.uniforms.lensStrength.value += (targetStrength - plane.uniforms.lensStrength.value) * 0.1;
+            });
+
+            // Mouse tracking
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                gsap.to(cursorLens, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+
+            container.addEventListener('mouseenter', () => {
+                isHovering = true;
+                cursorLens.classList.add('active');
+            });
+
+            container.addEventListener('mouseleave', () => {
+                isHovering = false;
+                cursorLens.classList.remove('active');
+            });
+
+            // Glitch intro
+            animateContent();
+        }
+
+        function animateContent() {
+            const glitchLoader = document.getElementById('glitchLoader');
+            gsap.timeline()
+                .to(glitchLoader, {
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: 0.8,
+                    onComplete: () => glitchLoader.style.display = 'none'
+                })
+                .to('.hero-title-animated', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                }, '-=0.4')
+                .to('.hero-text-animated', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: 'power2.out'
+                }, '-=0.6');
+        }
+    </script>
+</body>
+</html>

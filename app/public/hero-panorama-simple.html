@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Interactive Hero - Элинар Пласт</title>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+            background: #0f172a;
+        }
+
+        /* Hero Container */
+        .hero-panorama-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 700px;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .hero-panorama-container.dragging {
+            cursor: grabbing;
+        }
+
+        /* Panorama Image with CSS Parallax */
+        .hero-panorama-wrapper {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            z-index: 0;
+            will-change: transform;
+            display: flex; /* Для размещения дублированных изображений */
+        }
+
+        .hero-panorama-image {
+            width: 100vw; /* Нормальная ширина */
+            min-width: 100vw;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            flex-shrink: 0;
+        }
+
+        /* Magnified Clone - DISABLED */
+        .magnified-clone,
+        .cursor-lens {
+            display: none !important;
+        }
+
+        @keyframes autoPan {
+            0% {
+                object-position: 0% center;
+            }
+            100% {
+                object-position: 100% center;
+            }
+        }
+
+        /* Custom Cursor Lens */
+        .cursor-lens {
+            position: fixed;
+            width: 250px;
+            height: 250px;
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.2s ease-out;
+            box-shadow: 0 0 40px rgba(0, 82, 212, 0.7),
+                        0 0 80px rgba(0, 82, 212, 0.5),
+                        inset 0 0 40px rgba(255, 255, 255, 0.2);
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+        }
+
+        .cursor-lens.active {
+            transform: translate(-50%, -50%) scale(1);
+            animation: lensGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes lensGlow {
+            0%, 100% {
+                box-shadow: 0 0 40px rgba(0, 82, 212, 0.7),
+                            0 0 80px rgba(0, 82, 212, 0.5),
+                            inset 0 0 40px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(0, 82, 212, 1),
+                            0 0 120px rgba(0, 82, 212, 0.7),
+                            inset 0 0 60px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        .cursor-lens::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        .cursor-lens::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        /* Hero Overlay */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(15, 23, 42, 0.6) 0%,
+                rgba(15, 23, 42, 0.4) 50%,
+                rgba(15, 23, 42, 0.6) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Hero Content */
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .hero-text-block {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-title-animated {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-text-animated {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Glitch Loader */
+        .glitch-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            background: #0f172a;
+        }
+
+        .glitch-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-layer:nth-child(1) {
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(0, 82, 212, 0.2) 25%,
+                rgba(255, 107, 53, 0.2) 50%,
+                rgba(0, 82, 212, 0.2) 75%,
+                transparent 100%);
+            animation: glitchSlide1 0.8s ease-out;
+        }
+
+        .glitch-layer:nth-child(2) {
+            background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%);
+            animation: glitchSlide2 0.8s ease-out 0.1s;
+        }
+
+        .glitch-layer:nth-child(3) {
+            background: rgba(15, 23, 42, 1);
+            animation: glitchFade 1s ease-out;
+        }
+
+        @keyframes glitchSlide1 {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes glitchSlide2 {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        @keyframes glitchFade {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Info Panel */
+        .info-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.95);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-panel h4 {
+            margin-bottom: 0.5rem;
+            color: #60a5fa;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-panel li {
+            margin: 0.25rem 0;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+
+            .hero-title-animated {
+                font-size: 2rem;
+            }
+
+            .hero-text-animated {
+                font-size: 1rem;
+            }
+
+            .info-panel {
+                display: none;
+            }
+
+            .hero-panorama-image {
+                animation: autoPanMobile 40s linear infinite;
+            }
+
+            @keyframes autoPanMobile {
+                0% { object-position: 20% center; }
+                100% { object-position: 80% center; }
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Interactive Panorama Hero -->
+    <div class="hero-panorama-container" id="heroPanorama">
+        <!-- Panorama Image (3 copies for seamless loop) -->
+        <div class="hero-panorama-wrapper" id="panoramaWrapper">
+            <img
+                src="<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg-desktop_technologies-and-contract-manufacturing.webp"
+                alt="Производственный цех"
+                class="hero-panorama-image"
+            />
+            <img
+                src="<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg-desktop_technologies-and-contract-manufacturing.webp"
+                alt=""
+                class="hero-panorama-image"
+            />
+            <img
+                src="<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg-desktop_technologies-and-contract-manufacturing.webp"
+                alt=""
+                class="hero-panorama-image"
+            />
+        </div>
+
+        <!-- Custom Cursor Lens -->
+        <div class="cursor-lens" id="cursorLens"></div>
+
+        <!-- Magnified Clone -->
+        <div class="magnified-clone" id="magnifiedClone">
+            <img
+                src="<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg-desktop_technologies-and-contract-manufacturing.webp"
+                alt=""
+                id="magnifiedImage"
+            />
+        </div>
+
+        <!-- Overlay -->
+        <div class="hero-overlay"></div>
+
+        <!-- Content -->
+        <div class="hero-content-wrapper">
+            <div class="hero-text-block">
+                <h1 class="hero-title-animated">Немецкое качество на российском производстве</h1>
+                <p class="hero-text-animated">ООО «Элинар Пласт» — это российско-германское предприятие полного цикла, расположенное в Московской области (с. Атепцево). Мы специализируемся на производстве изделий из пластмасс методом экструзии и литья под давлением.</p>
+                <p class="hero-text-animated">Благодаря партнерству с немецкой компанией Multiplast Kunststoffverarbeitung GmbH и использованию немецких экструзионных линий, мы обеспечиваем европейскую точность изделий для фасадных систем, автомобильной промышленности и бытовой техники.</p>
+            </div>
+        </div>
+
+        <!-- Glitch Loader -->
+        <div class="glitch-loader" id="glitchLoader">
+            <div class="glitch-layer"></div>
+            <div class="glitch-layer"></div>
+            <div class="glitch-layer"></div>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel">
+        <h4>🎨 Эффекты (CSS):</h4>
+        <ul>
+            <li>✓ Автоматическая панорама</li>
+            <li>✓ Parallax по мыши</li>
+            <li>✓ Drag-to-scroll (зажми и тяни)</li>
+            <li>✓ Glitch-загрузка</li>
+            <li>✓ GSAP анимации</li>
+        </ul>
+    </div>
+
+    <script>
+        console.log('🎬 Initializing Simple Interactive Panorama...');
+
+        // Check GSAP
+        if (typeof gsap === 'undefined') {
+            console.error('❌ GSAP not loaded');
+        } else {
+            console.log('✅ GSAP loaded');
+        }
+
+        const panoramaWrapper = document.getElementById('panoramaWrapper');
+        const glitchLoader = document.getElementById('glitchLoader');
+        const heroContainer = document.getElementById('heroPanorama');
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let isDragging = false;
+        let startX = 0;
+        let currentTranslateX = 0;
+        let wrapperWidth = 0;
+
+        // Calculate wrapper width (3 images)
+        function updateWrapperWidth() {
+            wrapperWidth = window.innerWidth * 3;
+        }
+        updateWrapperWidth();
+        window.addEventListener('resize', updateWrapperWidth);
+
+        // Auto-pan animation
+        let autoPanOffset = 0;
+        function autoPan() {
+            if (!isDragging) {
+                autoPanOffset -= 0.5; // Speed of auto-pan
+
+                // Reset when scrolled one full image width
+                if (Math.abs(autoPanOffset) >= window.innerWidth) {
+                    autoPanOffset = 0;
+                }
+
+                gsap.set(panoramaWrapper, {
+                    x: autoPanOffset
+                });
+            }
+            requestAnimationFrame(autoPan);
+        }
+        autoPan();
+
+        // Mouse parallax effect (only when not dragging)
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            if (!isDragging) {
+                // Subtle parallax on Y axis only
+                const yPercent = (mouseY / window.innerHeight - 0.5) * 2;
+
+                gsap.to(panoramaWrapper, {
+                    y: yPercent + '%',
+                    duration: 1,
+                    ease: 'power2.out'
+                });
+            }
+        });
+
+        // Drag to scroll panorama
+        heroContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            heroContainer.classList.add('dragging');
+            startX = e.clientX;
+
+            // Get current position
+            const style = window.getComputedStyle(panoramaWrapper);
+            const matrix = new DOMMatrix(style.transform);
+            currentTranslateX = matrix.m41;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            e.preventDefault();
+            const x = e.clientX;
+            const deltaX = x - startX;
+
+            let newTranslateX = currentTranslateX + deltaX;
+
+            // Wrap around seamlessly
+            if (newTranslateX > 0) {
+                newTranslateX = -window.innerWidth + newTranslateX;
+                currentTranslateX = -window.innerWidth;
+                startX = x;
+            } else if (newTranslateX < -window.innerWidth * 2) {
+                newTranslateX = -window.innerWidth + (newTranslateX + window.innerWidth * 2);
+                currentTranslateX = -window.innerWidth;
+                startX = x;
+            }
+
+            gsap.set(panoramaWrapper, {
+                x: newTranslateX
+            });
+
+            // Update auto-pan offset to match
+            autoPanOffset = newTranslateX;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                heroContainer.classList.remove('dragging');
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if (isDragging) {
+                isDragging = false;
+                heroContainer.classList.remove('dragging');
+            }
+        });
+
+        // Glitch intro animation
+        gsap.timeline()
+            .to(glitchLoader, {
+                opacity: 0,
+                duration: 0.5,
+                delay: 1,
+                onComplete: () => {
+                    glitchLoader.style.display = 'none';
+                    console.log('✅ Glitch animation complete');
+                }
+            })
+            .to('.hero-title-animated', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power3.out'
+            }, '-=0.3')
+            .to('.hero-text-animated', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power2.out'
+            }, '-=0.6');
+
+        console.log('✅ Interactive Panorama initialized');
+    </script>
+</body>
+</html>

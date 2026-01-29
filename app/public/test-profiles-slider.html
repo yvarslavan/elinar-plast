@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Profiles Slider - Диагностика</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .test-section h2 {
+            margin-bottom: 15px;
+            color: #0066cc;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            min-height: 400px;
+            background: #f0f0f0;
+            border: 2px solid #ccc;
+            overflow: hidden;
+        }
+
+        .slider-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Test 1: object-fit: cover (обрезает) */
+        .test-cover .slider-image {
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Test 2: object-fit: contain (показывает всё) */
+        .test-contain .slider-image {
+            object-fit: contain;
+            object-position: center;
+        }
+
+        /* Test 3: object-fit: contain + background */
+        .test-contain-bg {
+            background: #1a1a1a;
+        }
+
+        .test-contain-bg .slider-image {
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            font-size: 14px;
+        }
+
+        .info strong {
+            color: #1976d2;
+        }
+
+        .debug-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            font-size: 12px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Диагностика слайдера профилей</h1>
+        
+        <!-- Test 1: object-fit: cover -->
+        <div class="test-section test-cover">
+            <h2>Test 1: object-fit: cover (текущее поведение - обрезает)</h2>
+            <div class="slider-wrapper">
+                <img src="wp-content/themes/elinar-plast/assets/images/tekhnicheskie-profili-1.webp" 
+                     alt="Test" 
+                     class="slider-image"
+                     id="img1">
+            </div>
+            <div class="info">
+                <strong>Ожидаемое поведение:</strong> Изображение заполняет весь контейнер, но обрезается по краям
+            </div>
+            <div class="debug-info" id="debug1"></div>
+        </div>
+
+        <!-- Test 2: object-fit: contain -->
+        <div class="test-section test-contain">
+            <h2>Test 2: object-fit: contain (правильное решение)</h2>
+            <div class="slider-wrapper">
+                <img src="wp-content/themes/elinar-plast/assets/images/tekhnicheskie-profili-1.webp" 
+                     alt="Test" 
+                     class="slider-image"
+                     id="img2">
+            </div>
+            <div class="info">
+                <strong>Ожидаемое поведение:</strong> Изображение полностью видно, могут быть белые полосы по бокам
+            </div>
+            <div class="debug-info" id="debug2"></div>
+        </div>
+
+        <!-- Test 3: object-fit: contain + dark background -->
+        <div class="test-section test-contain-bg">
+            <h2>Test 3: object-fit: contain + тёмный фон (рекомендуется)</h2>
+            <div class="slider-wrapper">
+                <img src="wp-content/themes/elinar-plast/assets/images/tekhnicheskie-profili-1.webp" 
+                     alt="Test" 
+                     class="slider-image"
+                     id="img3">
+            </div>
+            <div class="info">
+                <strong>Ожидаемое поведение:</strong> Изображение полностью видно на тёмном фоне (профессиональный вид)
+            </div>
+            <div class="debug-info" id="debug3"></div>
+        </div>
+    </div>
+
+    <script>
+        // Функция для отображения информации об изображении
+        function displayImageInfo(imgId, debugId) {
+            const img = document.getElementById(imgId);
+            const debug = document.getElementById(debugId);
+            
+            img.onload = function() {
+                const computed = window.getComputedStyle(img);
+                const info = `
+                    Natural Size: ${img.naturalWidth} x ${img.naturalHeight}px
+                    Display Size: ${img.width} x ${img.height}px
+                    object-fit: ${computed.objectFit}
+                    object-position: ${computed.objectPosition}
+                    Container aspect-ratio: ${computed.aspectRatio || 'not set'}
+                `;
+                debug.textContent = info;
+            };
+            
+            // Если изображение уже загружено
+            if (img.complete) {
+                img.onload();
+            }
+        }
+
+        // Отображаем информацию для всех тестов
+        displayImageInfo('img1', 'debug1');
+        displayImageInfo('img2', 'debug2');
+        displayImageInfo('img3', 'debug3');
+    </script>
+</body>
+</html>

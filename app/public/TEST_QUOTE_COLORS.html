@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Quote Colors</title>
+    <style>
+        :root {
+            --quote-success: #0056B3;
+        }
+        
+        .test-checkmark {
+            color: var(--quote-success);
+            font-size: 24px;
+        }
+        
+        .test-checkmark-direct {
+            color: #0056B3;
+            font-size: 24px;
+        }
+        
+        .test-success-message {
+            background-color: rgba(0, 86, 179, 0.1);
+            border: 1px solid #0056B3;
+            padding: 20px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест цветов для Quote Form</h1>
+    
+    <h2>1. Галочка через CSS переменную:</h2>
+    <div class="test-checkmark">✓ Это должно быть синим (#0056B3)</div>
+    
+    <h2>2. Галочка напрямую:</h2>
+    <div class="test-checkmark-direct">✓ Это должно быть синим (#0056B3)</div>
+    
+    <h2>3. Success сообщение:</h2>
+    <div class="test-success-message">
+        Это сообщение должно иметь синий фон и границу
+    </div>
+    
+    <h2>Проверка CSS переменной:</h2>
+    <script>
+        const root = getComputedStyle(document.documentElement);
+        const successColor = root.getPropertyValue('--quote-success');
+        document.write('<p>Значение --quote-success: ' + successColor + '</p>');
+    </script>
+</body>
+</html>
